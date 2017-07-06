@@ -43,7 +43,8 @@ $('.dummy').viewportChecker({
     invertBottomOffset: true, // Add the offset as a negative number to the element's bottom
     repeat: false, // Add the possibility to remove the class if the elements are not visible
     callbackFunction: function(elem, action){}, // Callback to do after a class was added to an element. Action will return "add" or "remove", depending if the class was added or removed
-	scrollHorizontal: false // Set to true if your website scrolls horizontal instead of vertical.
+	scrollHorizontal: false, // Set to true if your website scrolls horizontal instead of vertical.
+    delay: 0, // delays the animation (in ms)
 });
 ```
 
@@ -57,6 +58,7 @@ Available attributes are:
 <div data-vp-offset="[100 OR 10%]"></div>       > offset
 <div data-vp-repeat="true"></div>               > repeat
 <div data-vp-scrollHorizontal="false"></div>    > scrollHorizontal
+<div data-vp-delay="500"></div>                 > delay
 ```
 
 Use case
