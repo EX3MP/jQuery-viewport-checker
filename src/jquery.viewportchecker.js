@@ -23,6 +23,7 @@
             classToAddForFullView : 'full-visible',
             removeClassAfterAnimation: false,
             offset: 100,
+            delay: 0,
             repeat: false,
             invertBottomOffset: true,
             callbackFunction: function(elem, action){},
@@ -36,6 +37,29 @@
             boxSize = {height: $(options.scrollBox).height(), width: $(options.scrollBox).width()},
             scrollElem = ((navigator.userAgent.toLowerCase().indexOf('webkit') != -1 || navigator.userAgent.toLowerCase().indexOf('windows phone') != -1) ? 'body' : 'html');
 
+        this.triggerElement = function($obj, objOptions, rawEnd, viewportEnd, rawStart, viewportStart){
+            $obj.removeClass(objOptions.classToRemove);
+            $obj.addClass(objOptions.classToAdd);
+
+            // Do the callback function. Callback wil send the jQuery object as parameter
+            objOptions.callbackFunction($obj, "add");
+
+            // Check if full element is in view
+            if (rawEnd <= viewportEnd && rawStart >= viewportStart)
+                $obj.addClass(objOptions.classToAddForFullView);
+            else
+                $obj.removeClass(objOptions.classToAddForFullView);
+
+            // Set element as already animated
+            $obj.data('vp-animated', true);
+
+            if (objOptions.removeClassAfterAnimation) {
+                $obj.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                    $obj.removeClass(objOptions.classToAdd);
+                });
+            }
+        };
+        
         /*
          * Main method that checks the elements and adds or removes the class(es)
          */
@@ -75,6 +99,8 @@
                     attrOptions.scrollHorizontal = $obj.data('vp-scrollHorizontal');
                 if ($obj.data('vp-invertBottomOffset'))
                     attrOptions.scrollHorizontal = $obj.data('vp-invertBottomOffset');
+                if ($obj.data('vp-delay'))
+                    attrOptions.delay = $obj.data('vp-delay');
 
                 // Extend objOptions with data attributes and default options
                 $.extend(objOptions, options);
@@ -104,27 +130,14 @@
                 if ((elemStart < viewportEnd) && (elemEnd > viewportStart)){
 
                     // Remove class
-                    $obj.removeClass(objOptions.classToRemove);
-                    $obj.addClass(objOptions.classToAdd);
-
-                    // Do the callback function. Callback wil send the jQuery object as parameter
-                    objOptions.callbackFunction($obj, "add");
-
-                    // Check if full element is in view
-                    if (rawEnd <= viewportEnd && rawStart >= viewportStart)
-                        $obj.addClass(objOptions.classToAddForFullView);
-                    else
-                        $obj.removeClass(objOptions.classToAddForFullView);
-
-                    // Set element as already animated
-                    $obj.data('vp-animated', true);
-
-                    if (objOptions.removeClassAfterAnimation) {
-                        $obj.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                            $obj.removeClass(objOptions.classToAdd);
-                        });
+                    if(objOptions.delay){
+                        window.setTimeout(function(){
+                                $elem.triggerElement($obj, objOptions, rawEnd, viewportEnd, rawStart, viewportStart);
+                        }, objOptions.delay);   
+                    } else {
+                        $elem.triggerElement($obj, objOptions, rawEnd, viewportEnd, rawStart, viewportStart);
                     }
-
+                    
                 // Remove class if not in viewport and repeat is true
                 } else if ($obj.hasClass(objOptions.classToAdd) && (objOptions.repeat)){
                     $obj.removeClass(objOptions.classToAdd + " " + objOptions.classToAddForFullView);
