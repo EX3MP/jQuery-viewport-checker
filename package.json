@@ -1,13 +1,13 @@
 {
-  "name": "jQuery-viewport-checker",
-  "author": "Dirk Groenen",
+  "name": "jQuery-viewport-checker-ex3mp",
+  "author": "Dirk Groenen & EX3MP",
   "version": "1.8.8",
-  "homepage": "https://github.com/dirkgroenen/jQuery-viewport-checker",
+  "homepage": "https://github.com/EX3MP/jQuery-viewport-checker",
   "description": "Little script that detects if an element is in the viewport and adds a class to it. Modifyed by EX3MP",
-  "repository": "https://github.com/dirkgroenen/jQuery-viewport-checker",
+  "repository": "https://github.com/EX3MP/jQuery-viewport-checker",
   "licenses": {
     "type": "MIT",
-    "url": "https://github.com/dirkgroenen/jQuery-viewport-checker/blob/master/LICENSE"
+    "url": "https://github.com/EX3MP/jQuery-viewport-checker/blob/master/LICENSE"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
