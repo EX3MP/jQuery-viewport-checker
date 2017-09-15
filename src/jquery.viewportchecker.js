@@ -35,7 +35,8 @@
         // Cache the given element and height of the browser
         var $elem = this,
             boxSize = {height: $(options.scrollBox).height(), width: $(options.scrollBox).width()},
-            scrollElem = ((navigator.userAgent.toLowerCase().indexOf('webkit') != -1 || navigator.userAgent.toLowerCase().indexOf('windows phone') != -1) ? 'body' : 'html');
+            $html = $('html'),
+            $body = $(document.body);
 
         this.triggerElement = function($obj, objOptions, rawEnd, viewportEnd, rawStart, viewportStart){
             $obj.removeClass(objOptions.classToRemove);
@@ -59,7 +60,7 @@
                 });
             }
         };
-        
+
         /*
          * Main method that checks the elements and adds or removes the class(es)
          */
@@ -68,11 +69,11 @@
 
             // Set some vars to check with
             if (!options.scrollHorizontal){
-                viewportStart = $(scrollElem).scrollTop();
+                viewportStart = Math.max( $html.scrollTop(), $body.scrollTop(), $(window).scrollTop() );
                 viewportEnd = (viewportStart + boxSize.height);
             }
             else{
-                viewportStart = $(scrollElem).scrollLeft();
+                viewportStart = Math.max( $html.scrollTop(), $body.scrollTop(), $(window).scrollTop() );
                 viewportEnd = (viewportStart + boxSize.width);
             }
 
@@ -149,7 +150,10 @@
                     $obj.data('vp-animated', false);
                 }
             });
-
+        };
+        this.update = function(){
+            
+            requestAnimationFrame($elem.checkElements);
         };
 
         /**
@@ -165,20 +169,20 @@
         // Select the correct events
         if( 'ontouchstart' in window || 'onmsgesturechange' in window ){
             // Device with touchscreen
-            $(document).bind("touchmove MSPointerMove pointermove", this.checkElements);
+            $(document).bind("touchmove MSPointerMove pointermove", this.update);
         }
 
         // Always load on window load
-        $(options.scrollBox).bind("load scroll", this.checkElements);
+        $(options.scrollBox).bind("load scroll", this.update);
 
         // On resize change the height var
         $(window).resize(function(e){
             boxSize = {height: $(options.scrollBox).height(), width: $(options.scrollBox).width()};
-            $elem.checkElements();
+            $elem.update();
         });
 
         // trigger inital check if elements already visible
-        this.checkElements();
+        this.update();
 
         // Default jquery plugin behaviour
         return this;

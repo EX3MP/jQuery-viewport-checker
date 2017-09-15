@@ -92,6 +92,8 @@ module.exports = function(grunt){
     grunt.renameTask( 'watch', 'delta' );
     grunt.registerTask( 'watch', [ 'jshint:src', 'delta' ] );
 
+    grunt.registerTask( 'default', [ 'compile' ] );
+
     /**
      * Task which will minify the source and place it in the distribute directory
      */
