@@ -1,11 +1,7 @@
 jQuery-viewport-checker
 =======================
 
-![](https://img.shields.io/bower/v/jQuery-viewport-checker.svg)
-
-Little script that detects if an element is in the viewport and adds a class to it. 
-
-[![Help me with a cup of coffee ](https://pledgie.com/campaigns/28130.png?skin_name=chrome)](https://pledgie.com/campaigns/28130)
+![](https://img.shields.io/bower/v/jQuery-viewport-checker-ex3mp.svg)
 
 Installation
 ------------
@@ -13,7 +9,7 @@ Installation
 Download the file located in `/dist` or use bower to install it. 
 
 ```
-bower install jQuery-viewport-checker
+bower install jQuery-viewport-checker-ex3mp
 ```
 
 Include the script and jQuery in your website <head> tag and call it on the elements you want to check.
